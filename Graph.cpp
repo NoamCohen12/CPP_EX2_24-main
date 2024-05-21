@@ -51,30 +51,24 @@ void Graph::loadGraph(vector<vector<int>> &graph)
     }
 }
 
-void Graph::printGraph() const
+string Graph::printGraph() const
 {
-    int num_edges = 0;
-    int vertices = this->num_vertices;
+    int vertices = this->getSize();
+    string result;
     for (size_t i = 0; i < vertices; i++)
     {
-        // only count the upper triangle of the matrix
         for (size_t j = 0; j < vertices; j++)
         {
-            if (this->matrix[i][j] != 0)
-            {
-                num_edges++;
+            result += to_string(this->matrix[i][j]);
+            if (j != vertices - 1) {
+                result += ", ";
             }
         }
+        result += "\n";
     }
-    if (this->isDirected)
-    {
-        cout << "The graph is directed. V(G) = " << vertices << ", E(G) = " << num_edges << endl;
-    }
-    else
-    {
-        cout << "The graph is undirected. V(G) = " << vertices << " E(G) = " << (num_edges / 2) << endl;
-    }
+    return result;
 }
+
 
 vector<vector<int>> Graph::get_matrix() const
 {
@@ -208,6 +202,20 @@ Graph Graph::operator+(const Graph &g) const // binary 1
     Graph new_g(isSymmetric(new_matrix));
     new_g.loadGraph(new_matrix);
     return new_g;
+}
+Graph Graph::operator+(int number) // binary 2
+{
+    for (size_t i = 0; i < this->getSize(); i++)
+    {
+        for (size_t j = 0; j < this->getSize(); j++)
+        {
+            if (this->get_matrix()[i][j] != 0)
+            {
+            this->get_matrix()[i][j] = this->get_matrix()[i][j] + number;
+            }
+        }
+    }
+    return *this;
 }
 
 Graph Graph::operator+() const // onary 3
@@ -409,14 +417,28 @@ bool Graph::operator>(const Graph &g2) const // binary
     // Check if the size of the current graph is greater than the given graph
     return this->getSize() > g2.getSize();
 }
-ostream &operator<<(ostream &cout_new, const Graph &graph)
+
+
+void Graph::print_with_ostream(ostream &cout_new) const
+{
+    int vertices = this->num_vertices;
+    cout_new << "Adjacency Matrix:" << endl;
+    for (size_t i = 0; i < vertices; i++)
+    {
+        cout_new << "[ ";
+        for (size_t j = 0; j < vertices; j++)
+        {
+            cout_new << this->matrix[i][j] << " ";
+        }
+        cout_new << "]" << endl;
+    }
+   
+}
+
+ostream& ariel::operator<<(ostream &cout_new, const Graph &graph) 
 {
 
     graph.print_with_ostream(cout_new);
 
     return cout_new;
-}
-void Graph::print_with_ostream(ostream &cout_new)
-{
-    
 }

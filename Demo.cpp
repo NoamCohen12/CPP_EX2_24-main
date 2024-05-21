@@ -40,7 +40,7 @@ int main()
 
    // g1 /= -2;
    // ariel::Graph g4 = g1 * g2; // Multiply the two graphs together.
-    cout<<g4;           // Should print the multiplication of the matrices of g1 and g2: [0, 0, 2], [1, 0, 1], [1, 0, 0]
+    //cout<<g4;           // Should print the multiplication of the matrices of g1 and g2: [0, 0, 2], [1, 0, 1], [1, 0, 0]
 
     // 5x5 matrix that represents a connected graph.
     vector<vector<int>> graph2 = {

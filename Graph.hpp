@@ -86,6 +86,7 @@ namespace ariel
             *this = result;
             return *this;
         }
+        Graph operator+(int number) ; // binary
         //***********************************************************************************
         //++|--
         Graph &operator--() // unary
@@ -132,14 +133,17 @@ namespace ariel
         //***********************************************************************************
 
 //<< function
-             friend ostream& operator<<(ostream& cout_new, const Graph& graph);
+        friend ostream& operator<<(ostream& cout_new, const Graph& graph);
 
 
         //***********************************************************************************
         // help functions
+        void print_with_ostream(ostream &cout_new) const;
+
         bool if_g1_contain_g2(const Graph &g2) const;
         // bool who_more_edges(const Graph &g1, const Graph &g2) ;
         bool sameAdjacencyMatrix(const Graph &a, const Graph &b) const;
+        
     };
 
 }
