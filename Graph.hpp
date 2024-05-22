@@ -36,7 +36,7 @@ namespace ariel
         Graph add_opposite_edges() const;
 
         //////////////////////////////////////////////////////////////////////////////// operators
-       // bool isSymmetric(const vector<vector<int>> &matrix);
+        // bool isSymmetric(const vector<vector<int>> &matrix);
         // add
         /**
         @param: Graph
@@ -45,7 +45,7 @@ namespace ariel
         @description: add two graphs
 
         */
-        Graph operator+(const Graph &a)const; // binary
+        Graph operator+(const Graph &a) const; // binary
         /**
          * @param: Graph
          * @return: Graph
@@ -61,24 +61,23 @@ namespace ariel
          * @param: int
          *
          */
-        Graph operator+() const; // unary in cpp
-        //***********************************************************************************
+        Graph operator+() const // onary 3
+        {
+            return *this;
+        } //***********************************************************************************
 
         // redction
-        Graph operator-(const Graph &a)const;  // binary in cpp
-        Graph &operator-=(const Graph &g) // binary
+        Graph operator-(const Graph &a) const; // binary in cpp
+        Graph &operator-=(const Graph &g)      // binary
         {
             *this = *this - g;
             return *this;
         }
         Graph operator-() const; // unary
-                           //***********************************************************************************
+                                 //***********************************************************************************
         // multiplication
-        Graph operator*(const Graph &a)const; // binary in cpp
-        Graph operator*=(int number);  // binary in cpp
-
-
-
+        Graph operator*(const Graph &a) const; // binary in cpp
+        Graph operator*=(int number);          // binary in cpp
 
         Graph operator*=(Graph &g) // binary
         {
@@ -86,27 +85,34 @@ namespace ariel
             *this = result;
             return *this;
         }
-        Graph operator+(int number) ; // binary
         //***********************************************************************************
         //++|--
-        Graph &operator--() // unary
+        Graph operator--() // unary
         {
             *this = *this + (-1);
             return *this;
         }
-        Graph &operator++()  // unary
+
+        Graph operator--(int) // unary
         {
-            *this = *this + 1;
-            return *this;
+            Graph temp = *this;
+            *this = *this + (-1);
+            return temp;
         }
+        Graph &operator++(); // unary after
+
+        Graph operator++(int); // unary
+       
+        Graph operator+(int number) const;
+
         //***********************************************************************************
 
         // comparison
         /***
          * Graphs G1 and G2 will be called equal if they are of the same order of magnitude and
-         *  contain the same edges (and the weights of the edges are the same) 
+         *  contain the same edges (and the weights of the edges are the same)
          * or if G1 is not greater than G2 and neither is G2 greater than G1.
-        */
+         */
         bool operator==(const Graph &a) const
         {
             bool sameMatrix = sameAdjacencyMatrix(*this, a);
@@ -124,17 +130,18 @@ namespace ariel
         {
             return a > *this;
         }
-        bool operator<=(const Graph &a) {
-            return (*this < a)||(*this == a);
+        bool operator<=(const Graph &a)
+        {
+            return (*this < a) || (*this == a);
         }
-        bool operator>=(const Graph &a) const{
-            return (*this > a)||(*this == a);
+        bool operator>=(const Graph &a) const
+        {
+            return (*this > a) || (*this == a);
         }
         //***********************************************************************************
 
-//<< function
-        friend ostream& operator<<(ostream& cout_new, const Graph& graph);
-
+        //<< function
+        friend ostream &operator<<(ostream &cout_new, const Graph &graph);
 
         //***********************************************************************************
         // help functions
@@ -143,7 +150,6 @@ namespace ariel
         bool if_g1_contain_g2(const Graph &g2) const;
         // bool who_more_edges(const Graph &g1, const Graph &g2) ;
         bool sameAdjacencyMatrix(const Graph &a, const Graph &b) const;
-        
     };
 
 }

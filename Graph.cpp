@@ -16,6 +16,11 @@ size_t Graph::getSize() const
 
 void Graph::loadGraph(vector<vector<int>> &graph)
 {
+    if (graph.empty())
+    {
+        throw invalid_argument("the graph is empty");
+    }
+
     this->num_vertices = graph.size();
     this->matrix = graph;
     for (size_t i = 0; i < num_vertices; i++)
@@ -60,7 +65,8 @@ string Graph::printGraph() const
         for (size_t j = 0; j < vertices; j++)
         {
             result += to_string(this->matrix[i][j]);
-            if (j != vertices - 1) {
+            if (j != vertices - 1)
+            {
                 result += ", ";
             }
         }
@@ -68,7 +74,6 @@ string Graph::printGraph() const
     }
     return result;
 }
-
 
 vector<vector<int>> Graph::get_matrix() const
 {
@@ -203,43 +208,48 @@ Graph Graph::operator+(const Graph &g) const // binary 1
     new_g.loadGraph(new_matrix);
     return new_g;
 }
-Graph Graph::operator+(int number) // binary 2
+Graph Graph::operator+(int number) const
 {
-    for (size_t i = 0; i < this->getSize(); i++)
+    size_t num_vertices = this->num_vertices;
+    vector<vector<int>> new_matrix(num_vertices, vector<int>(num_vertices, 0));
+    for (size_t i = 0; i < num_vertices; i++)
     {
-        for (size_t j = 0; j < this->getSize(); j++)
+        for (size_t j = 0; j < num_vertices; j++)
         {
             if (this->get_matrix()[i][j] != 0)
             {
-            this->get_matrix()[i][j] = this->get_matrix()[i][j] + number;
+                new_matrix[i][j] = this->get_matrix()[i][j] + number;
             }
         }
     }
-    return *this;
+    Graph g_new(isSymmetric(new_matrix));
+    g_new.loadGraph(new_matrix);
+    return g_new;
 }
 
-Graph Graph::operator+() const // onary 3
+Graph &Graph::operator++() // unary before
 {
-    Graph g(this->isDirected);
-    for (size_t i = 0; i < this->getSize(); i++)
-    {
-        for (size_t j = 0; j < this->getSize(); j++)
-        {
-            g.get_matrix()[i][j] = this->get_matrix()[i][j];
-        }
-    }
-    return g;
+    *this = *this + 1;
+    return *this;
+}
+Graph Graph::operator++(int) // unary after
+{
+    Graph temp = *this;
+    *this = *this + 1;
+    return temp;
 }
 Graph Graph::operator-() const // onary 4
 {
     Graph g(this->isDirected);
+    vector<vector<int>> new_matrix(this->getSize(), vector<int>(this->getSize(), 0));
     for (size_t i = 0; i < this->getSize(); i++)
     {
         for (size_t j = 0; j < this->getSize(); j++)
         {
-            this->get_matrix()[i][j] = -1 * this->get_matrix()[i][j];
+            new_matrix[i][j] = -1 * this->get_matrix()[i][j];
         }
     }
+    g.loadGraph(new_matrix);
 
     return g;
 }
@@ -299,7 +309,16 @@ Graph Graph::operator*(const Graph &g) const
             }
         }
     }
-
+    for (size_t i = 0; i < new_matrix.size(); i++)
+    {
+        for (size_t j = 0; j < new_matrix.size(); j++)
+        {
+            if (i == j)
+            {
+                new_matrix[i][j] = 0;
+            }
+        }
+    }
     // Create a new Graph object with the resulting matrix
     Graph new_g(isSymmetric(new_matrix)); // Assuming isSymmetric checks if the matrix is symmetric
     new_g.loadGraph(new_matrix);          // Assuming loadGraph loads the matrix into the Graph object
@@ -418,7 +437,6 @@ bool Graph::operator>(const Graph &g2) const // binary
     return this->getSize() > g2.getSize();
 }
 
-
 void Graph::print_with_ostream(ostream &cout_new) const
 {
     int vertices = this->num_vertices;
@@ -432,10 +450,9 @@ void Graph::print_with_ostream(ostream &cout_new) const
         }
         cout_new << "]" << endl;
     }
-   
 }
 
-ostream& ariel::operator<<(ostream &cout_new, const Graph &graph) 
+ostream &ariel::operator<<(ostream &cout_new, const Graph &graph)
 {
 
     graph.print_with_ostream(cout_new);
