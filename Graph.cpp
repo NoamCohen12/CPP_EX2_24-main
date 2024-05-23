@@ -276,7 +276,7 @@ Graph Graph::operator-(const Graph &g) const // binary 5
     g_new.loadGraph(new_matrix);
     return g_new;
 }
-Graph Graph::operator*(int number)
+Graph Graph::operator*(int number) const
 { // modifing the graph by multiply by scalar
 Graph g(this->isDirected);
 vector<vector<int>> new_matrix(this->getSize(), vector<int>(this->getSize(), 0));

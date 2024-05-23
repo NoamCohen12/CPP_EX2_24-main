@@ -36,7 +36,8 @@ namespace ariel
         Graph add_opposite_edges() const;
 
         /////////////////////////// operators ////////////////////////////////
-
+//Functions with short implementationn I decided to implement in the class because in the case inLine is faster
+//from the function that is not inLine
         /////////////////////////// addition operators ///////////////////////////
 
         
@@ -123,7 +124,7 @@ namespace ariel
          * @description: multiply graph by number a*number
          *
          * */
-        Graph operator*(int number); 
+        Graph operator*(int number) const; 
         /**
          * @param: Graph
          * @return: This graph
@@ -270,12 +271,14 @@ namespace ariel
        
         void print_with_ostream(ostream &cout_new) const;
 
-        bool if_g1_contain_g2(const Graph &g2) const;
-        // bool who_more_edges(const Graph &g1, const Graph &g2);
+         bool if_g1_contain_g2(const Graph &g2) const;
 
-        bool sameAdjacencyMatrix(const Graph &a, const Graph &b) const;
+         bool sameAdjacencyMatrix(const Graph &a, const Graph &b) const;
 
-        // bool isSymmetric(const vector<vector<int>> &matrix);
+//there are two functions that are not implemented in the class becauae they are not operators and 
+//they are not member functions of the class also thay not shuold the data member of the class
+//1.who_more_edges
+//2.isSymmetric
 
     };
 
