@@ -17,17 +17,17 @@ int main()
     ariel::Graph g1(false);
     // 3x3 matrix that represents a connected graph.
     vector<vector<int>> graph = {
-        {0, 1, 0},
-        {1, 0, 1},
-        {0, 1, 0}};
+        {0, 0, 0},
+        {0, 0, 0},
+        {0, 0, 0}};
         
     g1.loadGraph(graph); // Load the graph to the object.
         ariel::Graph g2(false);
   
-    g2 = ++g1;
-    g2 = g1++;
-    cout << g1.printGraph() << endl;
-     cout << g1 << endl; // Should print the matrix of the graph: [0, 3, 0], [3, 0, 3], [0, 3, 0]
+    g2 = -g1;
+    g2 = g1--;
+    cout << g2.printGraph() << endl;
+     cout << g2 << endl; // Should print the matrix of the graph: [0, 3, 0], [3, 0, 3], [0, 3, 0]
 
  ariel::Graph g10(true);
     vector<vector<int>> graph10 = {

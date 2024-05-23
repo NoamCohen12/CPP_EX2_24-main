@@ -27,8 +27,8 @@ void Graph::loadGraph(vector<vector<int>> &graph)
     {
         if (graph[i].size() != num_vertices)
         {
-           // cout << graph[i].size() << endl;
-           // cout << num_vertices << endl;
+            // cout << graph[i].size() << endl;
+            // cout << num_vertices << endl;
 
             throw invalid_argument("the size between graphs diffrent");
         }
@@ -185,8 +185,12 @@ bool isSymmetric(const vector<vector<int>> &matrix)
 }
 // in function load_graph i just allow to load matrix NxN so i dont check this.
 //  opretors
-Graph Graph::operator+(const Graph &g) const // binary 1
+Graph Graph::operator+(const Graph &g) const
 {
+    if (this->get_matrix().empty() || g.get_matrix().empty())
+    {
+        throw invalid_argument("the size between graphs diffrent");
+    }
     if (this->getSize() != g.getSize())
     {
         throw invalid_argument("the size between graphs diffrent");
@@ -210,6 +214,10 @@ Graph Graph::operator+(const Graph &g) const // binary 1
 }
 Graph Graph::operator+(int number) const
 {
+    if (this->get_matrix().empty())
+    {
+        throw invalid_argument("the size between graphs diffrent");
+    }
     size_t num_vertices = this->num_vertices;
     vector<vector<int>> new_matrix(num_vertices, vector<int>(num_vertices, 0));
     for (size_t i = 0; i < num_vertices; i++)
@@ -238,8 +246,16 @@ Graph Graph::operator++(int) // unary after
     *this = *this + 1;
     return temp;
 }
-Graph Graph::operator-() const // onary 4
+Graph Graph::operator-() const
 {
+    if (this->get_matrix().empty())
+    {
+        throw invalid_argument("the size between graphs diffrent");
+    }
+    if (this->get_matrix().empty())
+    {
+        throw invalid_argument("the size between graphs diffrent");
+    }
     Graph g(this->isDirected);
     vector<vector<int>> new_matrix(this->getSize(), vector<int>(this->getSize(), 0));
     for (size_t i = 0; i < this->getSize(); i++)
@@ -253,8 +269,12 @@ Graph Graph::operator-() const // onary 4
 
     return g;
 }
-Graph Graph::operator-(const Graph &g) const // binary 5
+Graph Graph::operator-(const Graph &g) const
 {
+    if (this->get_matrix().empty() || g.get_matrix().empty())
+    {
+        throw invalid_argument("the size between graphs diffrent");
+    }
     if (this->getSize() != g.getSize())
     {
         throw invalid_argument("the size between graphs diffrent");
@@ -278,14 +298,19 @@ Graph Graph::operator-(const Graph &g) const // binary 5
 }
 Graph Graph::operator*(int number) const
 { // modifing the graph by multiply by scalar
-Graph g(this->isDirected);
-vector<vector<int>> new_matrix(this->getSize(), vector<int>(this->getSize(), 0));
+
+    if (this->get_matrix().empty())
+    {
+        throw invalid_argument("the size between graphs diffrent");
+    }
+    Graph g(this->isDirected);
+    vector<vector<int>> new_matrix(this->getSize(), vector<int>(this->getSize(), 0));
 
     for (size_t i = 0; i < this->getSize(); i++)
     {
         for (size_t j = 0; j < this->getSize(); j++)
         {
-           new_matrix[i][j]= this->get_matrix()[i][j] * number;
+            new_matrix[i][j] = this->get_matrix()[i][j] * number;
         }
     }
     g.loadGraph(new_matrix);
@@ -294,6 +319,10 @@ vector<vector<int>> new_matrix(this->getSize(), vector<int>(this->getSize(), 0))
 
 Graph Graph::operator*(const Graph &g) const
 {
+    if (this->get_matrix().empty()||g.get_matrix().empty())
+    {
+        throw invalid_argument("the size between graphs diffrent");
+    }
     if (matrix.size() != g.get_matrix().size())
     {
         throw invalid_argument("the size between graphs diffrent");
@@ -332,11 +361,16 @@ Graph Graph::operator*(const Graph &g) const
 // Overloading the '>' operator to check if the current graph contains the given graph as a submatrix
 bool Graph::if_g1_contain_g2(const Graph &a) const
 {
+    if (!this->get_matrix().empty()&&a.get_matrix().empty()) 
+    {
+       return true;
+    }
+    
     if (this->getSize() < a.getSize())
     {
         return false;
     }
-    
+
     // Reference to the current graph's matrix
     const vector<vector<int>> &A = this->get_matrix();
     // Reference to the given graph's matrix
@@ -411,7 +445,7 @@ bool Graph::sameAdjacencyMatrix(const Graph &a, const Graph &b) const
     }
     if (a.getSize() != b.getSize())
     {
-       // cout<<"a bigger"<<endl;
+        // cout<<"a bigger"<<endl;
         return false;
     }
     for (size_t i = 0; i < a.getSize(); i++)
@@ -428,6 +462,11 @@ bool Graph::sameAdjacencyMatrix(const Graph &a, const Graph &b) const
 }
 bool Graph::operator>(const Graph &g2) const // binary
 {
+    if (this->get_matrix().empty() && !g2.get_matrix().empty())
+    {
+        return false;
+    }
+    
     // Check if the adjacency matrices are the same
     if (this->sameAdjacencyMatrix(*this, g2))
     {
@@ -436,17 +475,17 @@ bool Graph::operator>(const Graph &g2) const // binary
     // Check if the current graph contains the given graph as a submatrix
     if (if_g1_contain_g2(g2))
     {
-       // cout<<"g1 contain g2"<<endl;
+        // cout<<"g1 contain g2"<<endl;
         return true;
     }
     // Check if the number of edges in the current graph is greater than the given graph
     else if (who_more_edges(*this, g2))
     {
-        //cout<<"g1 more edges"<<endl;
+        // cout<<"g1 more edges"<<endl;
         return true;
     }
-    //cout<<"g2 more edges"<<endl;
-    // Check if the size of the current graph is greater than the given graph
+    // cout<<"g2 more edges"<<endl;
+    //  Check if the size of the current graph is greater than the given graph
     return this->getSize() > g2.getSize();
 }
 
