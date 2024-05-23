@@ -73,12 +73,12 @@ one function that helpe to `<<operator`.
 
 5.`print_with_ostream` - This method print the matrix with ostrem.
 
-# #Assumptions
+# Assumptions
 1.When multiplying two graphs, the diagonal always resets.
 
 2.When we use operators like -- and ++, zero does not change.
 
-## Tests
+# Tests
 My code was checked with many tests in `Test.cpp` with the `make test` command.
 and `make valgrind` To check for memory leaks.
 
