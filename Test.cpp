@@ -269,7 +269,7 @@ TEST_CASE("rediction - unary operator")
 
 TEST_CASE("Addition g++ and ++g unary operator")
 {
-    //g++
+    // g++
     ariel::Graph g1(true);
     vector<vector<int>> graph = {
         {0, 1, 0},
@@ -285,18 +285,19 @@ TEST_CASE("Addition g++ and ++g unary operator")
     ariel::Graph g2 = g1++;
 
     CHECK(g2.get_matrix() == graph);
-    CHECK(g1.get_matrix() ==expectedGraph);
+    CHECK(g1.get_matrix() == expectedGraph);
 
-//++g
+    //++g
     ariel::Graph g3 = ++g1;
     vector<vector<int>> expectedGraph2 = {
         {0, 3, 0},
         {3, 0, 3},
         {0, 3, 0}};
-     CHECK(g3.get_matrix() == expectedGraph2);        
+    CHECK(g3.get_matrix() == expectedGraph2);
 }
-TEST_CASE("redection g-- and --g unary operator"){
-    //g--
+TEST_CASE("redection g-- and --g unary operator")
+{
+    // g--
     ariel::Graph g1(true);
     vector<vector<int>> graph = {
         {0, 1, 0},
@@ -312,11 +313,11 @@ TEST_CASE("redection g-- and --g unary operator"){
     ariel::Graph g2 = g1--;
 
     CHECK(g2.get_matrix() == graph);
-    CHECK(g1.get_matrix() ==expectedGraph);
-      g1--;
-    CHECK(g1.get_matrix() == expectedGraph);//0 not change to -1
+    CHECK(g1.get_matrix() == expectedGraph);
+    g1--;
+    CHECK(g1.get_matrix() == expectedGraph); // 0 not change to -1
     //--g
-     ariel::Graph g4(true);
+    ariel::Graph g4(true);
     vector<vector<int>> graph4 = {
         {0, 7, 5, 7},
         {7, 0, 7, 5},
@@ -324,8 +325,8 @@ TEST_CASE("redection g-- and --g unary operator"){
         {7, 5, 7, 0}};
     g4.loadGraph(graph4);
     ariel::Graph g5(false);
-     g5 = --g4;
-     vector<vector<int>> graph5 = {
+    g5 = --g4;
+    vector<vector<int>> graph5 = {
         {0, 6, 4, 6},
         {6, 0, 6, 4},
         {4, 6, 0, 6},
@@ -334,7 +335,8 @@ TEST_CASE("redection g-- and --g unary operator"){
     CHECK(g4.get_matrix() == graph5);
 }
 
-TEST_CASE("Addition +="){
+TEST_CASE("Addition +=")
+{
     ariel::Graph g1(true);
     vector<vector<int>> graph = {
         {0, 1, 0},
@@ -361,12 +363,9 @@ TEST_CASE("Addition +="){
         {0, 0, 0},
         {0, 0, 0}};
     CHECK(g1.get_matrix() == expectedGraph3);
-
-    
-
-
 }
-TEST_CASE("redction -="){
+TEST_CASE("redction -=")
+{
     ariel::Graph g1(true);
     vector<vector<int>> graph = {
         {0, 1, 0},
@@ -387,22 +386,22 @@ TEST_CASE("redction -="){
         {0, 0, -1},
         {-1, -1, 0}};
     CHECK(g1.get_matrix() == expectedGraph);
-        g1 += -g1;
+    g1 += -g1;
     vector<vector<int>> expectedGraph3 = {
         {0, 0, 0},
         {0, 0, 0},
         {0, 0, 0}};
     CHECK(g1.get_matrix() == expectedGraph3);
-
 }
-TEST_CASE("multiplication *"){
+TEST_CASE("multiplication *")
+{
     ariel::Graph g1(false);
     vector<vector<int>> graph = {
         {0, 1, 1000},
         {1, 0, 1},
         {10000, 1, 0}};
     g1.loadGraph(graph);
-     ariel::Graph g2(true);
+    ariel::Graph g2(true);
     vector<vector<int>> graph1 = {
         {0, 1, 0},
         {1, 0, 1},
@@ -410,13 +409,11 @@ TEST_CASE("multiplication *"){
     g2.loadGraph(graph1);
     ariel::Graph g3 = g1 * g2;
     vector<vector<int>> expectedGraph = {
-        {0,  1000,   1},
-        {0,   0,    0 },
-        {1, 10000,  0}}; 
+        {0, 1000, 1},
+        {0, 0, 0},
+        {1, 10000, 0}};
     CHECK(g3.get_matrix() == expectedGraph);
     ariel::Graph g4(true);
-    
-
 }
 TEST_CASE("multiplication * scalr")
 {
@@ -428,6 +425,7 @@ TEST_CASE("multiplication * scalr")
     g1.loadGraph(graph);
     ariel::Graph g2(false);
     g2 = g1 * 2;
+
     vector<vector<int>> expectedGraph = {
         {0, 2, 40},
         {2, 0, 2},
@@ -441,7 +439,7 @@ TEST_CASE("multiplication * scalr")
         {0, 0, 0}};
     CHECK(g2.get_matrix() == expectedGraph2);
 }
-TEST_CASE("multiplication *= ")
+TEST_CASE("multiplication *=  *= scalar ")
 {
     ariel::Graph g10(true);
     vector<vector<int>> graph10 = {
@@ -456,11 +454,24 @@ TEST_CASE("multiplication *= ")
     g11.loadGraph(graph11);
     g10 *= g11;
     vector<vector<int>> expectedGraph = {
-        {0, 1},
-        {1, 0}};
-    CHECK(g10.get_matrix() == expectedGraph);     
+        {0, 0},
+        {0, 0}};
+    CHECK(g10.get_matrix() == expectedGraph);
+    ariel::Graph g1(false);
+    vector<vector<int>> graph = {
+        {0, 1, 20},
+        {1, 0, 1},
+        {-5, 1, 0}};
+    g1.loadGraph(graph);
+    g1 *= 2;
+    vector<vector<int>> expectedGraph2 = {
+        {0, 2, 40},
+        {2, 0, 2},
+        {-10, 2, 0}};
+    CHECK(g1.get_matrix() == expectedGraph2);
 }
-TEST_CASE("Comparisons ==  > <" ){
+TEST_CASE("Comparisons ==  > < >= <=")
+{
     ariel::Graph g10(true);
     vector<vector<int>> graph10 = {
         {0, 1},
@@ -472,13 +483,11 @@ TEST_CASE("Comparisons ==  > <" ){
         {0, 2},
         {1, 0}};
     g11.loadGraph(graph11);
-    CHECK((g10==g11)==true);
-    CHECK((g10<g11)==false);
-    CHECK((g10>g11)==false);
-    CHECK((g10>=g11)==true);
-    CHECK((g10<=g11)==true);
-
-
+    CHECK((g10 == g11) == true);
+    CHECK((g10 < g11) == false);
+    CHECK((g10 > g11) == false);
+    CHECK((g10 >= g11) == true);
+    CHECK((g10 <= g11) == true);
 
     ariel::Graph g5(true);
     vector<vector<int>> graph5 = {
@@ -486,15 +495,31 @@ TEST_CASE("Comparisons ==  > <" ){
         {6, 0, 6, 4},
         {4, 6, 0, 6},
         {6, 4, 6, 0}};
-        g5.loadGraph(graph5);
+    g5.loadGraph(graph5);
 
-        ariel::Graph g6(true);
-        vector<vector<int>> graph6 = {
+    ariel::Graph g6(true);
+    vector<vector<int>> graph6 = {
         {0, 6},
         {6, 0}};
-        g6.loadGraph(graph6);
-CHECK((g5>g6)==true);
-
-
+    g6.loadGraph(graph6);
+    CHECK((g5 > g6) == true);
+    CHECK((g5 < g6) == false);
+    CHECK((g5 >= g6) == true);
+    CHECK((g5 == g6) == false);
+    CHECK_FALSE((g5 <= g6) == true);
 }
+TEST_CASE("<<")
+{
+    ariel::Graph g1(true);
+    vector<vector<int>> graph = {
+            {0,   1,   1},
+            {1,   0,   1},
+            {1,   1,   0}};
+    
+    g1.loadGraph(graph);
 
+    stringstream ss;
+    ss << g1;
+    string expected  = "[ 0 1 1 ]\n[ 1 0 1 ]\n[ 1 1 0 ]\n";
+    CHECK(ss.str() == expected);
+}

@@ -35,83 +35,171 @@ namespace ariel
         Graph getTranspose() const;
         Graph add_opposite_edges() const;
 
-        //////////////////////////////////////////////////////////////////////////////// operators
-        // bool isSymmetric(const vector<vector<int>> &matrix);
-        // add
+        /////////////////////////// operators ////////////////////////////////
+
+        /////////////////////////// addition operators ///////////////////////////
+
+        
+        // add operators
         /**
         @param: Graph
-        @return: Graph
-        @operation: add two graphs
-        @description: add two graphs
-
+        @return: New graph
+        @operation: add two graphs +
+        @description: add two graphs a+b
+        //out line
         */
-        Graph operator+(const Graph &a) const; // binary
+        Graph operator+(const Graph &a) const; 
         /**
          * @param: Graph
-         * @return: Graph
-         * @operation: add two graphs
-         * @description: add two graphs
+         * @return: This graph
+         * @operation: add two graphs +=
+         * @description: add two graphs a+=b
          */
-        Graph &operator+=(const Graph &g) // binary
+        Graph &operator+=(const Graph &g) 
         {
             *this = *this + g;
             return *this;
         }
         /**
          * @param: int
-         *
+         * @return: New graph
+         * @operation: add graph by number +
+         * @description: add graph by number a+number
          */
-        Graph operator+() const // onary 3
+        Graph operator+(int number) const;
+        /**
+         * @param: without parameters
+         * @return: This graph
+         * @operation: +graph
+         * @description: Multiply the graph by 1
+         */
+        Graph operator+() const 
         {
             return *this;
-        } //***********************************************************************************
-
-        // redction
-        Graph operator-(const Graph &a) const; // binary in cpp
-        Graph &operator-=(const Graph &g)      // binary
+        } 
+        ///////////////////////////// redction operators ///////////////////////////
+        /**
+         * @param: Graph
+         * @return: New graph
+         * @operation: substract two graphs -
+         * @description: substract two graphs a-b
+         *
+         * */
+        Graph operator-(const Graph &a) const; 
+        /**
+         * @param: graph
+         * @return: This graph
+         * @operation: substract two graphs -
+         * @description: substract two graphs a-=b
+         *
+         **/
+        Graph &operator-=(const Graph &g) 
         {
             *this = *this - g;
             return *this;
         }
-        Graph operator-() const; // unary
-                                 //***********************************************************************************
-        // multiplication
-        Graph operator*(const Graph &a) const; // binary in cpp
-        Graph operator*=(int number);          // binary in cpp
-
-        Graph operator*=(Graph &g) // binary
+        /**
+         * @param: without parameters
+         * @return: New graph
+         * @operation: -graph
+         * @description: Multiply the graph by -1
+         *
+         * */
+        Graph operator-() const; 
+                                 
+        // multiplication operators
+        /**
+         * @param: Graph
+         * @return: New graph
+         * @operation: multiply two graphs *
+         * @description: multiply two graphs a*b
+         *
+         * */
+        Graph operator*(const Graph &a) const; 
+        /**
+         * @param: int
+         * @return: New graph
+         * @operation: multiply graph by number *
+         * @description: multiply graph by number a*number
+         *
+         * */
+        Graph operator*(int number); 
+        /**
+         * @param: Graph
+         * @return: This graph
+         * @operation: multiply two graphs *
+         * @description: multiply two graphs a*=b
+         *
+         * */
+        Graph operator*=(int number)
         {
-            Graph result = *this * g;
-            *this = result;
+            *this = *this * number;
             return *this;
         }
-        //***********************************************************************************
-        //++|--
-        Graph operator--() // unary
+        /**
+         * @param: Graph
+         * @return: This graph
+         * @operation: multiply two graphs *
+         * @description: multiply two graphs a*=b
+         *
+         * */
+        Graph operator*=(Graph &g) 
+        {
+            *this = *this * g;
+            return *this;
+        }
+        
+        /////////////////////////////// ++|--  operators ///////////////////////////////////
+        /**
+         * @param: without parameters
+         * @return: This graph
+         * @operation: graph--
+         * @description: reduce the graph by 1 and return the graph
+         */
+        Graph operator--() 
         {
             *this = *this + (-1);
             return *this;
         }
-
-        Graph operator--(int) // unary
+        /**
+         * @param: without parameters
+         * @return: New graph
+         * @operation: --graph
+         * @description: return graph and after reduce by 1
+         */
+        Graph operator--(int) // after
         {
             Graph temp = *this;
             *this = *this + (-1);
             return temp;
         }
-        Graph &operator++(); // unary after
+        /**
+         * @param: without parameters
+         * @return: This graph
+         * @operation: graph++
+         * @description: increase the graph by 1 and return the graph
+         */
+        Graph &operator++(); 
+        /**
+         * @param: without parameters
+         * @return: New graph
+         * @operation: ++graph
+         * @description: return graph and after increase by 1
+         */
+        Graph operator++(int); 
 
-        Graph operator++(int); // unary
-       
-        Graph operator+(int number) const;
-
-        //***********************************************************************************
-
-        // comparison
-        /***
+        /////////////////////////////// comparison operators ///////////////////////////////////
+        
+        /**
          * Graphs G1 and G2 will be called equal if they are of the same order of magnitude and
          *  contain the same edges (and the weights of the edges are the same)
          * or if G1 is not greater than G2 and neither is G2 greater than G1.
+         */
+        /**
+         * @param: Graph
+         * @return: bool
+         * @operation: compare two graphs ==
+         * @description: compare two graphs a==b
          */
         bool operator==(const Graph &a) const
         {
@@ -120,36 +208,75 @@ namespace ariel
 
             return sameMatrix || not_big;
         }
+        /**
+         * @param: Graph
+         * @return: bool
+         * @operation: compare two graphs !=
+         * @description: compare two graphs a!=b
+         */
         bool operator!=(const Graph &a) const
         {
             return !(*this == a);
         }
-
+        /**
+         * @param: Graph
+         * @return: bool
+         * @operation: compare two graphs >
+         * @description: compare two graphs a>b
+         */
         bool operator>(const Graph &a) const; // binary
-        bool operator<(const Graph &a) const  // binary
+        /**
+         * @param: Graph
+         * @return: bool
+         * @operation: compare two graphs <
+         * @description: compare two graphs a<b
+         */
+        bool operator<(const Graph &a) const
         {
             return a > *this;
         }
+        /**
+         * @param: Graph
+         * @return: bool
+         * @operation: compare two graphs <=
+         * @description: compare two graphs a<=b
+         */
         bool operator<=(const Graph &a)
         {
             return (*this < a) || (*this == a);
         }
+        /**
+         * @param: Graph
+         * @return: bool
+         * @operation: compare two graphs >=
+         * @description: compare two graphs a>=b
+         */
         bool operator>=(const Graph &a) const
         {
             return (*this > a) || (*this == a);
         }
-        //***********************************************************************************
-
+        ////////////////////////////// print operators //////////////////////////////////////
+        /**
+         * @param: ostream
+         * @return: ostream
+         * @operation: print graph
+         * @description: print graph
+         * the function is friend function because it is not a member of the class
+         */
         //<< function
         friend ostream &operator<<(ostream &cout_new, const Graph &graph);
 
-        //***********************************************************************************
-        // help functions
+        //////////////////////////////  help functions //////////////////////////////////////
+       
         void print_with_ostream(ostream &cout_new) const;
 
         bool if_g1_contain_g2(const Graph &g2) const;
-        // bool who_more_edges(const Graph &g1, const Graph &g2) ;
+        // bool who_more_edges(const Graph &g1, const Graph &g2);
+
         bool sameAdjacencyMatrix(const Graph &a, const Graph &b) const;
+
+        // bool isSymmetric(const vector<vector<int>> &matrix);
+
     };
 
 }

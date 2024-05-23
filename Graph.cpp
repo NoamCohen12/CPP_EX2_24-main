@@ -27,8 +27,8 @@ void Graph::loadGraph(vector<vector<int>> &graph)
     {
         if (graph[i].size() != num_vertices)
         {
-            cout << graph[i].size() << endl;
-            cout << num_vertices << endl;
+           // cout << graph[i].size() << endl;
+           // cout << num_vertices << endl;
 
             throw invalid_argument("the size between graphs diffrent");
         }
@@ -276,16 +276,20 @@ Graph Graph::operator-(const Graph &g) const // binary 5
     g_new.loadGraph(new_matrix);
     return g_new;
 }
-Graph Graph::operator*=(int number)
+Graph Graph::operator*(int number)
 { // modifing the graph by multiply by scalar
+Graph g(this->isDirected);
+vector<vector<int>> new_matrix(this->getSize(), vector<int>(this->getSize(), 0));
+
     for (size_t i = 0; i < this->getSize(); i++)
     {
         for (size_t j = 0; j < this->getSize(); j++)
         {
-            this->get_matrix()[i][j] = this->get_matrix()[i][j] * number;
+           new_matrix[i][j]= this->get_matrix()[i][j] * number;
         }
     }
-    return *this;
+    g.loadGraph(new_matrix);
+    return g;
 }
 
 Graph Graph::operator*(const Graph &g) const
@@ -328,6 +332,11 @@ Graph Graph::operator*(const Graph &g) const
 // Overloading the '>' operator to check if the current graph contains the given graph as a submatrix
 bool Graph::if_g1_contain_g2(const Graph &a) const
 {
+    if (this->getSize() < a.getSize())
+    {
+        return false;
+    }
+    
     // Reference to the current graph's matrix
     const vector<vector<int>> &A = this->get_matrix();
     // Reference to the given graph's matrix
@@ -402,6 +411,7 @@ bool Graph::sameAdjacencyMatrix(const Graph &a, const Graph &b) const
     }
     if (a.getSize() != b.getSize())
     {
+       // cout<<"a bigger"<<endl;
         return false;
     }
     for (size_t i = 0; i < a.getSize(); i++)
@@ -426,13 +436,16 @@ bool Graph::operator>(const Graph &g2) const // binary
     // Check if the current graph contains the given graph as a submatrix
     if (if_g1_contain_g2(g2))
     {
+       // cout<<"g1 contain g2"<<endl;
         return true;
     }
     // Check if the number of edges in the current graph is greater than the given graph
     else if (who_more_edges(*this, g2))
     {
+        //cout<<"g1 more edges"<<endl;
         return true;
     }
+    //cout<<"g2 more edges"<<endl;
     // Check if the size of the current graph is greater than the given graph
     return this->getSize() > g2.getSize();
 }
@@ -440,7 +453,6 @@ bool Graph::operator>(const Graph &g2) const // binary
 void Graph::print_with_ostream(ostream &cout_new) const
 {
     int vertices = this->num_vertices;
-    cout_new << "Adjacency Matrix:" << endl;
     for (size_t i = 0; i < vertices; i++)
     {
         cout_new << "[ ";

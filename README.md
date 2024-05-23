@@ -1,23 +1,94 @@
-# מטלה 2 - גרפים והעמסת אופרטורים
-
-במטלה הקודמת מימשתם את המחלקה `Graph.cpp` המאפשרת ייצוג של גרפים בעזרת מטריצת שכנויות. במטלה הזאת, אתם תרחיבו את המחלקה ותוסיפו תמיכה באופרטורים חשבוניים על גרפים.
-כאמור, הגרפים מיוצגים בעזרת מטריצת שכנויות, לכן כל האופרטורים צריכים להיות חוקיים עבור מטריצות (כמו שלמדתם בקורס אלגברה לינארית).
-
-אתם תצטרכו להוסיף את האופרטורים הבאים:
-
-- שישה אופרטורים חשבוניים: חיבור (+) הוספה (+=) פלוס אונרי (+), ושלושת האופרטורים המקבילים לחיסור (-). כאמור, חיבור/חיסור של שתי מטריצות מוגדר רק על מטריצות מאותו סדר גודל nXn. ניסיון לחבר/לחסר שתי מטריצות שלא מקיימות תנאי זה יגרום לזריקת שגיאה.
-- שישה אופרטורי השוואה: גדול, גדול-או-שווה, קטן, קטן-או-שווה, שווה, לא-שווה. לשם מטלה זו כללי השוואת גרפים הם כדלקמן:
-
-  1. גרפים G1 ו-G2 ייקראו שווים אם הם מאותו סדר גודל ומכילים את אותן הצלעות (והמשקלים של הצלעות זהים) או אם G1 לא גדול מ-G2 וגם G2 לא גדול מ-G1.
-  2. גרף G2 גדול מגרף G1 אם הגרף G1 מוכל ממש בגרף G2. אם אף גרף לא מוכל ממש בשני והגרפים לא שווים, אז גרף G2 גדול מגרף G1 אם מספר הצלעות ב-G2 גדול ממספר הצלעות ב-G1. אם בכל זאת מספר הצלעות זהה, אז הגרף G2 גדול מהגרף G1 אם המטריצה המייצגת של G2 בעלת סדר גודל גבוה יותר משל G1.
-
-- הגדלה ב-1 (++) והקטנה ב-1 (--) לפני ואחרי המספר. פעולה זו תגדיל או תקטין ב-1 את כל המשקלים של הצלעות בגרף.
-- הכפלה בסקלר שלם (`int`) - מכפיל את המשקל של כל הצלעות.
-- הכפלת גרפים - אנחנו מגדירים את פעולת הכפל בין גרף G1 לגרף G2 על ידי מכפלה של המטריצות המייצגות של שני הגרפים. התוצאה צריכה להיות מטריצה המייצגת גרף. ניסיון לבצע כפל בין גרפים בגדלים שונים צריך לזרוק שגיאה.
-- אופרטור פלט - הדפסה הגיונית של הגרף (צורת ההפדסה היא לשיקולכם).
+# CPP_EX1_24 - operators
 
 
-כמו כן, עליכם לכלול גם את הקובץ `Algorithms.cpp` מהמטלה הקודמת ולראות כיצד הפונקציות שהגדרתם בפעם הקודמת משתנות עכשיו. בנוסף לקבצים של המטלה אתם נדרשים להגיש גם קובץ README המתאר את אופן המימוש ואת החלוקה שביצעתם בקוד (סוג של מדריך משתמש).
-עליכם לכתוב בתחילת כל קובץ את מספר תעודת הזהות שלכם ואת המייל. אי עמידה בהנחיות תגרור הפחתה בציון.
-בהצלחה!
+## Author
+- [Noam Cohen]
+- Email: Noam12345002@gmail.com
 
+## operators
+The project implements in C++
+The center of the project in  is operators 
+And it is a continuation project of an project on graphs and algorithms - CPP_EX1_24
+
+In my task there are many types of operators that I was required to implement
+
+*Addition Operators*
+
+`operator+( Graph &a) `
+
+`operator+=( Graph &g)`
+
+`operator+(int number)`
+
+`operator+() `
+
+*Subtraction Operators*
+`operator-( Graph &a)`
+
+`operator-=( Graph &g)`
+
+`operator-() `
+
+*Multiplication Operators*
+
+`operator*( Graph &a) `
+
+`operator*(int number)`
+
+`operator*=(int number)`
+
+`operator*=(Graph &g)`
+
+*Increment and Decrement Operators*
+
+`operator++()`
+
+`operator++(int)`
+
+`operator--()`
+
+`operator--(int)`
+
+*Comparison Operators*
+
+`operator==( Graph &a) `
+
+`operator>( Graph &a) `
+
+`operator<( Graph &a) `
+
+`operator<=( Graph &a)`
+
+`operator>=( Graph &a) `
+
+*Stream Output Operator*
+
+`friend ostream &operator<<(ostream &cout_new,Graph &graph)`
+
+## Changes made from CPP_EX1_24 
+`printGraph()`Change 
+and were added a few help functions:
+3 functions that help to `<operator` by the deftion:
+
+Graphs G1 and G2 will be called equal if they are of the same order of magnitude and
+contain the same edges (and the weights of the edges are the same)
+or if G1 is not greater than G2 and neither is G2 greater than G1.
+
+1.`if_g1_contain_g2` - This method checks if g1 contains the subgraph represented by g2
+2.`who_more_edges` -   This method checks if to g1 there are  more edges from g2
+3.`sameAdjacencyMatrix` - This method checks if to g1 and g2 have same matrix
+function that help to Determine whether the graph is directed after the operations of the operators
+
+4.`isSymmetric` - This method checks matrix og g1 isSymmetric
+
+helpe to `<<operator`
+
+5.`print_with_ostream` - This method print the matrix with ostrem
+
+
+
+
+
+## Tests
+My code was checked with many tests in `Test.cpp` with the `make test` command.
+and `make valgrind` To check for memory leaks.
