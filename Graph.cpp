@@ -14,7 +14,7 @@ size_t Graph::getSize() const
     return this->num_vertices;
 }
 
-void Graph::loadGraph(vector<vector<int>> &graph)
+void Graph::loadGraph(const vector<vector<int>> &graph)
 {
     if (graph.empty())
     {
@@ -137,7 +137,7 @@ Graph Graph::add_opposite_edges() const
     return fix_graph;
 }
 
-int Graph::graph_type(vector<vector<int>> &graph)
+int Graph::graph_type(const vector<vector<int>> &graph)
 {
     int type = without_weights_edges;
     for (size_t i = 0; i < matrix.size(); i++)
@@ -160,17 +160,17 @@ int Graph::graph_type(vector<vector<int>> &graph)
 bool isSymmetric(const vector<vector<int>> &matrix)
 {
     // Check if the matrix is square
-    int n = matrix.size();
+    int numberV = matrix.size();
     for (const auto &row : matrix)
     {
-        if (row.size() != n)
+        if (row.size() != numberV)
         {
             return false; // Not square, hence not symmetric
         }
     }
 
     // Check if the matrix is symmetric
-    for (size_t i = 0; i < n; ++i)
+    for (size_t i = 0; i < numberV; ++i)
     {
         for (size_t j = 0; j < i; ++j)
         {
@@ -185,19 +185,19 @@ bool isSymmetric(const vector<vector<int>> &matrix)
 }
 // in function load_graph i just allow to load matrix NxN so i dont check this.
 //  opretors
-Graph Graph::operator+(const Graph &g) const
+Graph Graph::operator+(const Graph &graph) const
 {
-    if (this->get_matrix().empty() || g.get_matrix().empty())
+    if (this->get_matrix().empty() || graph.get_matrix().empty())
     {
         throw invalid_argument("the size between graphs diffrent");
     }
-    if (this->getSize() != g.getSize())
+    if (this->getSize() != graph.getSize())
     {
         throw invalid_argument("the size between graphs diffrent");
     }
 
-    vector<vector<int>> matrix_g = g.get_matrix();
-    vector<vector<int>> new_matrix(g.getSize(), vector<int>(g.getSize(), 0));
+    vector<vector<int>> matrix_g = graph.get_matrix();
+    vector<vector<int>> new_matrix(graph.getSize(), vector<int>(graph.getSize(), 0));
 
     for (size_t i = 0; i < matrix_g.size(); i++)
     {
@@ -256,7 +256,7 @@ Graph Graph::operator-() const
     {
         throw invalid_argument("the size between graphs diffrent");
     }
-    Graph g(this->isDirected);
+    Graph graph(this->isDirected);
     vector<vector<int>> new_matrix(this->getSize(), vector<int>(this->getSize(), 0));
     for (size_t i = 0; i < this->getSize(); i++)
     {
@@ -265,22 +265,22 @@ Graph Graph::operator-() const
             new_matrix[i][j] = -1 * this->get_matrix()[i][j];
         }
     }
-    g.loadGraph(new_matrix);
+    graph.loadGraph(new_matrix);
 
-    return g;
+    return graph;
 }
-Graph Graph::operator-(const Graph &g) const
+Graph Graph::operator-(const Graph &graph) const
 {
-    if (this->get_matrix().empty() || g.get_matrix().empty())
+    if (this->get_matrix().empty() || graph.get_matrix().empty())
     {
         throw invalid_argument("the size between graphs diffrent");
     }
-    if (this->getSize() != g.getSize())
+    if (this->getSize() != graph.getSize())
     {
         throw invalid_argument("the size between graphs diffrent");
     }
 
-    vector<vector<int>> matrix1 = g.get_matrix();
+    vector<vector<int>> matrix1 = graph.get_matrix();
     vector<vector<int>> new_matrix(matrix1.size(), vector<int>(matrix1.size(), 0));
 
     for (size_t i = 0; i < matrix1.size(); i++)
@@ -303,7 +303,7 @@ Graph Graph::operator*(int number) const
     {
         throw invalid_argument("the size between graphs diffrent");
     }
-    Graph g(this->isDirected);
+    Graph graph(this->isDirected);
     vector<vector<int>> new_matrix(this->getSize(), vector<int>(this->getSize(), 0));
 
     for (size_t i = 0; i < this->getSize(); i++)
@@ -313,32 +313,32 @@ Graph Graph::operator*(int number) const
             new_matrix[i][j] = this->get_matrix()[i][j] * number;
         }
     }
-    g.loadGraph(new_matrix);
-    return g;
+    graph.loadGraph(new_matrix);
+    return graph;
 }
 
-Graph Graph::operator*(const Graph &g) const
+Graph Graph::operator*(const Graph &graph) const
 {
-    if (this->get_matrix().empty()||g.get_matrix().empty())
+    if (this->get_matrix().empty()||graph.get_matrix().empty())
     {
         throw invalid_argument("the size between graphs diffrent");
     }
-    if (matrix.size() != g.get_matrix().size())
+    if (matrix.size() != graph.get_matrix().size())
     {
         throw invalid_argument("the size between graphs diffrent");
     }
 
     // Initialize a new matrix to store the new_matrix
-    vector<vector<int>> new_matrix(matrix.size(), vector<int>(g.matrix[0].size(), 0));
+    vector<vector<int>> new_matrix(matrix.size(), vector<int>(graph.matrix[0].size(), 0));
 
     // Perform matrix multiplication
     for (size_t i = 0; i < matrix.size(); ++i)
     {
-        for (size_t j = 0; j < g.matrix[0].size(); ++j)
+        for (size_t j = 0; j < graph.matrix[0].size(); ++j)
         {
             for (size_t k = 0; k < matrix[0].size(); ++k)
             {
-                new_matrix[i][j] += matrix[i][k] * g.matrix[k][j];
+                new_matrix[i][j] += matrix[i][k] * graph.matrix[k][j];
             }
         }
     }
@@ -359,37 +359,37 @@ Graph Graph::operator*(const Graph &g) const
 }
 
 // Overloading the '>' operator to check if the current graph contains the given graph as a submatrix
-bool Graph::if_g1_contain_g2(const Graph &a) const
+bool Graph::if_g1_contain_g2(const Graph &graph) const
 {
-    if (!this->get_matrix().empty()&&a.get_matrix().empty()) 
+    if (!this->get_matrix().empty()&&graph.get_matrix().empty()) 
     {
        return true;
     }
     
-    if (this->getSize() < a.getSize())
+    if (this->getSize() < graph.getSize())
     {
         return false;
     }
 
     // Reference to the current graph's matrix
-    const vector<vector<int>> &A = this->get_matrix();
+    const vector<vector<int>> &Group_A = this->get_matrix();
     // Reference to the given graph's matrix
-    const vector<vector<int>> &B = a.get_matrix();
+    const vector<vector<int>> &Group_B = graph.get_matrix();
 
     // Loop through each possible position in the current graph's matrix
-    for (size_t i = 0; i <= this->getSize() - a.getSize(); i++)
+    for (size_t i = 0; i <= this->getSize() - graph.getSize(); i++)
     {
-        for (size_t j = 0; j <= this->getSize() - a.getSize(); j++)
+        for (size_t j = 0; j <= this->getSize() - graph.getSize(); j++)
         {
             bool match = true; // Variable to check for match
 
             // Loop through each element of the given graph's matrix
-            for (size_t row = 0; row < a.getSize(); row++)
+            for (size_t row = 0; row < graph.getSize(); row++)
             {
-                for (size_t culm = 0; culm < a.getSize(); culm++)
+                for (size_t culm = 0; culm < graph.getSize(); culm++)
                 {
                     // Check if elements do not match
-                    if (A[i + row][j + culm] != B[row][culm])
+                    if (Group_A[i + row][j + culm] != Group_B[row][culm])
                     {
                         match = false; // Set match to false if any element does not match
                         break;         // Break the innermost loop
@@ -410,25 +410,25 @@ bool Graph::if_g1_contain_g2(const Graph &a) const
     return false; // Return false if no submatrix match is found
 }
 
-bool who_more_edges(const Graph &g1, const Graph &g2)
+bool who_more_edges(const Graph &graph1, const Graph &graph2)
 {
     int num_edges_g1 = 0;
     int num_edges_g2 = 0;
-    for (size_t i = 0; i < g1.getSize(); i++)
+    for (size_t i = 0; i < graph1.getSize(); i++)
     {
-        for (size_t j = 0; j < g1.getSize(); j++)
+        for (size_t j = 0; j < graph1.getSize(); j++)
         {
-            if (g1.get_matrix()[i][j] != 0)
+            if (graph1.get_matrix()[i][j] != 0)
             {
                 num_edges_g1++;
             }
         }
     }
-    for (size_t i = 0; i < g2.getSize(); i++)
+    for (size_t i = 0; i < graph2.getSize(); i++)
     {
-        for (size_t j = 0; j < g2.getSize(); j++)
+        for (size_t j = 0; j < graph2.getSize(); j++)
         {
-            if (g2.get_matrix()[i][j] != 0)
+            if (graph2.get_matrix()[i][j] != 0)
             {
                 num_edges_g2++;
             }
@@ -437,22 +437,22 @@ bool who_more_edges(const Graph &g1, const Graph &g2)
     return num_edges_g1 > num_edges_g2;
 }
 
-bool Graph::sameAdjacencyMatrix(const Graph &a, const Graph &b) const
+bool Graph::sameAdjacencyMatrix(const Graph &graph1, const Graph &graph2) const
 {
-    if (a.get_matrix().empty() && b.get_matrix().empty())
+    if (graph1.get_matrix().empty() && graph2.get_matrix().empty())
     {
         return false;
     }
-    if (a.getSize() != b.getSize())
+    if (graph1.getSize() != graph2.getSize())
     {
         // cout<<"a bigger"<<endl;
         return false;
     }
-    for (size_t i = 0; i < a.getSize(); i++)
+    for (size_t i = 0; i < graph1.getSize(); i++)
     {
-        for (size_t j = 0; j < a.getSize(); j++)
+        for (size_t j = 0; j < graph1.getSize(); j++)
         {
-            if (a.get_matrix()[i][j] != b.get_matrix()[i][j])
+            if (graph1.get_matrix()[i][j] != graph2.get_matrix()[i][j])
             {
                 return false;
             }
@@ -460,38 +460,38 @@ bool Graph::sameAdjacencyMatrix(const Graph &a, const Graph &b) const
     }
     return true;
 }
-bool Graph::operator>(const Graph &g2) const // binary
+bool Graph::operator>(const Graph &graph2) const // binary
 {
-    if (this->get_matrix().empty() && !g2.get_matrix().empty())
+    if (this->get_matrix().empty() && !graph2.get_matrix().empty())
     {
         return false;
     }
     
     // Check if the adjacency matrices are the same
-    if (this->sameAdjacencyMatrix(*this, g2))
+    if (this->sameAdjacencyMatrix(*this, graph2))
     {
         return false;
     }
     // Check if the current graph contains the given graph as a submatrix
-    if (if_g1_contain_g2(g2))
+    if (if_g1_contain_g2(graph2))
     {
-        // cout<<"g1 contain g2"<<endl;
+        // cout<<"graph1 contain graph2"<<endl;
         return true;
     }
     // Check if the number of edges in the current graph is greater than the given graph
-    else if (who_more_edges(*this, g2))
+    else if (who_more_edges(*this, graph2))
     {
-        // cout<<"g1 more edges"<<endl;
+        // cout<<"graph1 more edges"<<endl;
         return true;
     }
-    // cout<<"g2 more edges"<<endl;
+    // cout<<"graph2 more edges"<<endl;
     //  Check if the size of the current graph is greater than the given graph
-    return this->getSize() > g2.getSize();
+    return this->getSize() > graph2.getSize();
 }
 
 void Graph::print_with_ostream(ostream &cout_new) const
 {
-    int vertices = this->num_vertices;
+    size_t vertices = this->num_vertices;
     for (size_t i = 0; i < vertices; i++)
     {
         cout_new << "[ ";

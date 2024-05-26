@@ -20,10 +20,10 @@ namespace ariel
     public:
         // main function
         Graph(bool isDirected);
-        void loadGraph(vector<vector<int>> &graph);
+        void loadGraph(const vector<vector<int>> &graph);
         string printGraph() const;
         // help function
-        int graph_type(vector<vector<int>> &graph);
+        int graph_type(const vector<vector<int>> &graph);
 
         // gets
         size_t getSize() const;
@@ -49,16 +49,16 @@ namespace ariel
         @description: add two graphs a+b
         //out line
         */
-        Graph operator+(const Graph &a) const; 
+        Graph operator+(const Graph &graph) const; 
         /**
          * @param: Graph
          * @return: This graph
          * @operation: add two graphs +=
          * @description: add two graphs a+=b
          */
-        Graph &operator+=(const Graph &g) 
+        Graph &operator+=(const Graph &graph) 
         {
-            *this = *this + g;
+            *this = *this + graph;
             return *this;
         }
         /**
@@ -86,7 +86,7 @@ namespace ariel
          * @description: substract two graphs a-b
          *
          * */
-        Graph operator-(const Graph &a) const; 
+        Graph operator-(const Graph &graph) const; 
         /**
          * @param: graph
          * @return: This graph
@@ -94,9 +94,9 @@ namespace ariel
          * @description: substract two graphs a-=b
          *
          **/
-        Graph &operator-=(const Graph &g) 
+        Graph &operator-=(const Graph &graph) 
         {
-            *this = *this - g;
+            *this = *this - graph;
             return *this;
         }
         /**
@@ -116,7 +116,7 @@ namespace ariel
          * @description: multiply two graphs a*b
          *
          * */
-        Graph operator*(const Graph &a) const; 
+        Graph operator*(const Graph &graph) const; 
         /**
          * @param: int
          * @return: New graph
@@ -144,9 +144,9 @@ namespace ariel
          * @description: multiply two graphs a*=b
          *
          * */
-        Graph operator*=(Graph &g) 
+        Graph operator*=(Graph &graph) 
         {
-            *this = *this * g;
+            *this = *this * graph;
             return *this;
         }
         
@@ -202,10 +202,10 @@ namespace ariel
          * @operation: compare two graphs ==
          * @description: compare two graphs a==b
          */
-        bool operator==(const Graph &a) const
+        bool operator==(const Graph &graph) const
         {
-            bool sameMatrix = sameAdjacencyMatrix(*this, a);
-            bool not_big = !(*this > a) && !(a > *this);
+            bool sameMatrix = sameAdjacencyMatrix(*this, graph);
+            bool not_big = !(*this > graph) && !(graph > *this);
 
             return sameMatrix || not_big;
         }
@@ -215,9 +215,9 @@ namespace ariel
          * @operation: compare two graphs !=
          * @description: compare two graphs a!=b
          */
-        bool operator!=(const Graph &a) const
+        bool operator!=(const Graph &graph) const
         {
-            return !(*this == a);
+            return !(*this == graph);
         }
         /**
          * @param: Graph
@@ -225,16 +225,16 @@ namespace ariel
          * @operation: compare two graphs >
          * @description: compare two graphs a>b
          */
-        bool operator>(const Graph &a) const; // binary
+        bool operator>(const Graph &graph) const; // binary
         /**
          * @param: Graph
          * @return: bool
          * @operation: compare two graphs <
          * @description: compare two graphs a<b
          */
-        bool operator<(const Graph &a) const
+        bool operator<(const Graph &graph) const
         {
-            return a > *this;
+            return graph > *this;
         }
         /**
          * @param: Graph
@@ -242,9 +242,9 @@ namespace ariel
          * @operation: compare two graphs <=
          * @description: compare two graphs a<=b
          */
-        bool operator<=(const Graph &a)
+        bool operator<=(const Graph &graph)
         {
-            return (*this < a) || (*this == a);
+            return (*this < graph) || (*this == graph);
         }
         /**
          * @param: Graph
@@ -252,9 +252,9 @@ namespace ariel
          * @operation: compare two graphs >=
          * @description: compare two graphs a>=b
          */
-        bool operator>=(const Graph &a) const
+        bool operator>=(const Graph &graph) const
         {
-            return (*this > a) || (*this == a);
+            return (*this > graph) || (*this == graph);
         }
         ////////////////////////////// print operators //////////////////////////////////////
         /**
@@ -271,9 +271,9 @@ namespace ariel
        
         void print_with_ostream(ostream &cout_new) const;
 
-         bool if_g1_contain_g2(const Graph &g2) const;
+         bool if_g1_contain_g2(const Graph &graph) const;
 
-         bool sameAdjacencyMatrix(const Graph &a, const Graph &b) const;
+         bool sameAdjacencyMatrix(const Graph &graph1, const Graph &graph2) const;
 
 //there are two functions that are not implemented in the class becauae they are not operators and 
 //they are not member functions of the class also thay not shuold the data member of the class

@@ -20,7 +20,7 @@ namespace ariel
     {
     public:
         // functions for isConnected function
-        static bool BFS(vector<vector<int> > adj, int start);
+        static bool BFS(vector<vector<int> > matrix, int start);
         static bool isConnected(Graph &graph);
 
         // functions for shortestPath function

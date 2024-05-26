@@ -468,7 +468,7 @@ string Algorithms::Two_Color_Division(Graph &graph)
     vector<int> Group_A;
     vector<int> Group_B;
     vector<int> color(graph.getSize(), -1);
-    queue<int> Queue;
+    queue<size_t> Queue;
 
     // Start BFS traversal from each unvisited node
     for (size_t i = 0; i < graph.getSize(); i++)
