@@ -63,6 +63,10 @@ TEST_CASE("Test graph multiplication *")
     g7.loadGraph(graph7);
     ariel::Graph g8 = g6 * g7;
     CHECK(g8.printGraph() == "0, 0, 1, 0\n0, 0, 0, 5\n7, 0, 0, 0\n0, 5, 0, 0\n");
+        ariel::Graph g11(true);
+
+//    g11 =ariel::3 ariel::* g8 ;
+    //CHECK(g11.printGraph() == "0, 0, 3, 0\n0, 0, 0, 15\n21, 0, 0, 0\n0, 15, 0, 0\n");
 }
 TEST_CASE("Test small graph multiplication")
 {

@@ -510,3 +510,11 @@ ostream &ariel::operator<<(ostream &cout_new, const Graph &graph)
 
     return cout_new;
 }
+// /**
+//          * @param: Graph
+//          * @return: New graph
+//          * @operation: multiply graph with number *
+//          * @description: multiply two graphs graph*number
+//          *
+//          * */
+     

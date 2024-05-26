@@ -150,6 +150,9 @@ namespace ariel
             return *this;
         }
         
+               //Graph operator*(int number , Graph &graph) ;
+
+        
         /////////////////////////////// ++|--  operators ///////////////////////////////////
         /**
          * @param: without parameters
@@ -280,8 +283,17 @@ namespace ariel
 //1.who_more_edges
 //2.isSymmetric
 
+
+
+
+
+
     };
 
+          Graph operator*(int number , const Graph &graph) 
+        {
+            return graph * number;
+        }
 }
 
 #endif
